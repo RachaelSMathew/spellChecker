@@ -49,6 +49,8 @@ If a document was last edited very recently, there might be a higher chance that
 
 Thus, if a word comes from many recently edited documents, we want to place a higher weight on it than a word that does not. 
 
+The lastEdit values are used when [determining popularity](https://github.com/RachaelSMathew/spellChecker/blob/1342ebf17b79052d2e37c9affcc1925738bee0f5/spellCheck.py#L81).
+
 ### The structure of [lastEdit](https://github.com/RachaelSMathew/spellChecker/blob/1342ebf17b79052d2e37c9affcc1925738bee0f5/spellCheck.py):
 `{file #: current time - last edited time, file #: current time - last edited time}`
 
