@@ -43,7 +43,7 @@ I encoded this inverted index using [delta encoding](https://github.com/RachaelS
 
 ## Features used to determine if two words are similar(i.e., one is the correct spelling of another)
 
-* ## lastEdit Dictionary: 
+## lastEdit Dictionary: 
 A dictionary that holds the times each document was last edited. 
 If a document was last edited very recently, there might be a higher chance that this document is more popular and more reliable for correct spelling than a document that was last edited months ago. 
 
@@ -56,19 +56,19 @@ The lastEdit values are used when [determining popularity](https://github.com/Ra
 
 This dictionary is sorted in ascending values.
 
-* ## Phonetic Code Dictionary:
+## Phonetic Code Dictionary:
 I’m creating a dictionary where words with the same [phonetic code](https://en.wikipedia.org/wiki/Phonetic_algorithm) are grouped together. The phonetic code of a word is calculated using [metaphone](https://en.wikipedia.org/wiki/Metaphone) and [this python library](https://pypi.org/project/Metaphone/). 
 
 For example, the dictionary might look like this:
 `{“PJTR“: [“bajador“, “begetter”, “budgetary”]}`
 
-* ## Dictionary of words that have the same length as incorrectly spelled words:
+## Dictionary of words that have the same length as incorrectly spelled words:
 
 Structure: `{3: [“cat”, “bat”], 5: ["hello", "pinky"]}`
 
-* ## The popularity of a word from the [inverted dictionary](https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L128)
+## The popularity of a word from the [inverted dictionary](https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L128)
 
-* ## Words that [start with the same letter](https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L139) as incorrectly spelled(with a length diff of three max)
+## Words that [start with the same letter](https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L139) as incorrectly spelled(with a length diff of three max)
 
 ## So, how do we actually spell check?
 I read every word from the txt file the user inputted and stripped any leading/trailing funky characters like “!#@$%^&”. 
@@ -119,5 +119,6 @@ Thus, in that case, the resulting iDict will look like this:
 
 `[[A, 1.0], [C, 2.0]]`
 
-You made it this far? Congrats. 
+**You made it this far? Congrats.**
+
 Whatever is left in the iDict is then displayed to the user. This is repeated for every word in the txt file. 
