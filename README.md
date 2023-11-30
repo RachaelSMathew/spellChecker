@@ -150,7 +150,7 @@ The cost of adding an "i" is less than the cost of replacing "o" with an "a"("i"
 
 As seen [here](https://github.com/RachaelSMathew/spellChecker/blob/1342ebf17b79052d2e37c9affcc1925738bee0f5/spellCheck.py#L28), I'm calculating the distance between two keys(only focusing on the alphabet keys) on the keyboard.
 
-To do this, I'm turning the alphabet keys into an [x and y coordinate graph](https://drive.google.com/file/d/1fZZjPaaX2makh9b_2lsFoB2cNEVOdM5Q/view?usp=sharing). 
+To do this, I'm turning the alphabet keys into an [x and y coordinate graph](https://drive.google.com/file/d/1Ia5p5dsX6LNtoloYZYcVz3avklBGLX_h/view?usp=sharing). 
 
 For example, the distance between "f"(0.9, 1) and "z"(0, 2)  is: `((2-1)^2+(0-0.9)^2)^.5`
 
