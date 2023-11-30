@@ -21,6 +21,13 @@ Second choice
 Third choice
 …
 ```
+### The Noisy Channel Model
+
+> In this model, the goal is to find the intended word given a word where the letters have been scrambled in some manner.
+> 
+![Noisy Channel Model](https://sandipanweb.files.wordpress.com/2017/05/im01.png?w=676)
+
+**The correct spelling of a word will be the one with the highest probability in the Noisy Channel Model**
 
 ### Inverted Index:
 I went through every single document in the corpus and created an inverted index.
@@ -124,3 +131,24 @@ Thus, in that case, the resulting iDict will look like this:
 **You made it this far? Congrats.**
 
 Whatever is left in the iDict is then displayed to the user. This is repeated for every word in the txt file. 
+
+## Levenshtein Algorithm (More Detailed)
+Let's say we have an incorrect word, "wdsh" and we have two options for the potentially correct spelling, "wash" and wish".
+
+There is a higher chance that the user meant to type in "wash" because "a" is closer to "d" than it is to "i".
+
+So, let's think about the distance between characters on a keyboard when figuring out the cost of operations in this algorithm. 
+
+In the traditional Levenshtein Alg., the cost of inserting/replacing/deletion is all the same.
+
+**But** if we had an incorrect word, "lon", and two options for correct spelling, "lion" and "lan". 
+
+The cost of adding an "i" is less than the cost of replacing "o" with an "a"("i" is closer to "o" on the keyboard, and "a" is on the other side of the keyboard). 
+
+As seen [here](https://github.com/RachaelSMathew/spellChecker/blob/1342ebf17b79052d2e37c9affcc1925738bee0f5/spellCheck.py#L28), I'm calculating the distance between two keys(only focusing on the alphabet keys) on the keyboard.
+
+To do this, I'm turning the alphabet keys into an [x and y coordinate graph](https://drive.google.com/file/d/1fZZjPaaX2makh9b_2lsFoB2cNEVOdM5Q/view?usp=sharing). 
+
+For example, the distance between "f"(0.9, 1) and "z"(0, 2)  is: `((2-1)^2+(0-0.9)^2)^.5`
+
+
