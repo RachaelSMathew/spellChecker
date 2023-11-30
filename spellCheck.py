@@ -180,28 +180,28 @@ def returnRank(arg):
 
     for word in wordSamepC:
         dist = .0001 if levenshteinDist(arg, word) == 0 else levenshteinDist(arg, word) 
-        iDist.append([word, (1/dist)]) 
-        iDist.sort(key=sortSecond, reverse=True) #getting SMALLEST distance 
+        iDist.append([word, (dist)]) 
+        iDist.sort(key=sortSecond) #getting SMALLEST distance 
 
     for word in wordStartSame(arg):
         dist = .0001 if levenshteinDist(arg, word) == 0 else levenshteinDist(arg, word) 
-        if [word, (1/dist)] not in iDist:
-            iDist.append([word, (1/dist)]) 
-        iDist.sort(key=sortSecond, reverse=True)
+        if [word, (dist)] not in iDist:
+            iDist.append([word, (dist)]) 
+        iDist.sort(key=sortSecond) #getting SMALLEST distance 
 
     for word in wordSameLen:
         dist = .0001 if levenshteinDist(arg, word) == 0 else levenshteinDist(arg, word)
-        if [word, (1/dist)] not in iDist:
-            iDist.append([word, (1/dist)]) 
-        iDist.sort(key=sortSecond, reverse=True)
+        if [word, (dist)] not in iDist:
+            iDist.append([word, (dist)]) 
+        iDist.sort(key=sortSecond) #getting SMALLEST distance 
 
-    #filter the iDist array if two elements next to eachother are more than .01 aprt use distance thingy 
+    #filter the iDist array if two elements next to each other are more than .01 apart use distance thingy 
     """
     insertion = (distKey(b[j-1], "g") if i==1 else distKey(b[j-1], a[i-2])) + D[i][j - 1] #cost from b[j-1] to a[i-2] and if i==1 then b[j-1] to g
     deletion = (distKey(a[i-1], "g") if i==1 else distKey(a[i-1], a[i-2])) + D[i - 1][j] #cost from a[i-1] and a[i-2] and if i==1 then a[i-1] to g
     replacement = distKey(a[i-1], b[j-1]) + D[i - 1][j - 1] #cost from a[i-1] b[j-1]
     """
-    #filter the iDist array such that any two elemnts next to each other are  more than .01 apart and if so then check the popularity of both 
+    #filter the iDist array such that any two elements next to each other are  more than .01 apart, and if so, then check the popularity of both 
     iDistN = [iDist[0]]
     for index in range(1, len(iDist)):
         i = len(iDistN) - 1
