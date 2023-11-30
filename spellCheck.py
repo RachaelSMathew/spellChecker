@@ -49,7 +49,7 @@ def distKey(a, b):
 
 @cache
 ##taken from https://www.educative.io/answers/the-levenshtein-distance-algorithm
-def levenshteinDist(a, b, specific=False):
+def levenshteinDist(a, b, detailed=False):
     # Declaring array 'D' with rows = len(a) + 1 and columns = len(b) + 1:
     D = [[0 for i in range(len(b) + 1)] for j in range(len(a) + 1)]
 
@@ -67,9 +67,9 @@ def levenshteinDist(a, b, specific=False):
                 D[i][j] = D[i - 1][j - 1]
             else:
                 # Adding 1 to account for the cost of operation
-                insertion = (1 if not specific else (distKey(b[j-1], "g") if i==1 else distKey(b[j-1], a[i-2]))) + D[i][j - 1] #cost from b[j-1] to a[i-2] and if i==1 then b[j-1] to g
-                deletion = (1 if not specific else (distKey(a[i-1], "g") if i==1 else distKey(a[i-1], a[i-2]))) + D[i - 1][j] #cost from a[i-1] and a[i-2] and if i==1 then a[i-1] to g
-                replacement = (1 if not specific else (distKey(a[i-1], b[j-1]))) + D[i - 1][j - 1] #cost from a[i-1] b[j-1]
+                insertion = (1 if not detailed else (distKey(b[j-1], "g") if i==1 else distKey(b[j-1], a[i-2]))) + D[i][j - 1] #cost from b[j-1] to a[i-2] and if i==1 then b[j-1] to g
+                deletion = (1 if not detailed else (distKey(a[i-1], "g") if i==1 else distKey(a[i-1], a[i-2]))) + D[i - 1][j] #cost from a[i-1] and a[i-2] and if i==1 then a[i-1] to g
+                replacement = (1 if not detailed else (distKey(a[i-1], b[j-1]))) + D[i - 1][j - 1] #cost from a[i-1] b[j-1]
 
                 # Choosing the best option:
                 D[i][j] = min(insertion, deletion, replacement)
