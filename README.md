@@ -16,7 +16,7 @@ Input this command in the terminal inside the `spellChecker` directory:
 
 `python spellCheck.py [txt file that you want spellchecked]`
 
-For a word that is incorrectly spelled in the txt file, it will print something like this into the terminal:
+For a word that is incorrectly spelled in the txt file, it will print something [like this](https://drive.google.com/file/d/1MVLG25KPFTQT-DIsKt3hfkgfxxfi0uFE/view?usp=sharing) into the terminal:
 ```
 Instead of [incorrectly spelled word], did you mean?
 First choice for correct spelling
