@@ -135,7 +135,7 @@ Thus, in that case, the resulting iDict will look like this:
 
 Whatever is left in the iDict is then displayed to the user. This is repeated for every word in the txt file. 
 
-## Levenshtein Algorithm (More Detailed)
+## Levenshtein Algorithm [More Detailed](https://github.com/RachaelSMathew/spellChecker/blob/1725fa47d4848ffbf76d8b01da489c9d5696fc4f/spellCheck.py#L70-L72)
 Let's say we have an incorrect word, "wdsh" and we have two options for the potentially correct spelling, "wash" and wish".
 
 There is a higher chance that the user meant to type in "wash" because "a" is closer to "d" than it is to "i".
