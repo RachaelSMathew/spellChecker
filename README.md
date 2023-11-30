@@ -97,7 +97,9 @@ Find the [Levenshtein Distance](https://www.educative.io/answers/the-levenshtein
 
 ### Shortening down iDict even further:
 Filter the iDict array such that any two elements next to each other are less than .01 in [Levenshtein distance](https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L202C8-L202C8)
+
 	- compare the popularity of both 
+ 
 	- compare the Levenshtein distance of both (with a more detailed algorithm)
 
 Let's say we have an iDict like this:
@@ -109,7 +111,7 @@ If the Levenshtein distance of B to the incorrectly spelled word is less than th
 
 `[[B, 1.0], [C, 2.0]]`
 
-But let's say that A is an **insanely popular word**(i.e., popularity(A) * 0.1 > popularity(B)), so there is a chance that the user meant to type in A even though it might be farther away from it than B.
+But let's say that A is an **insanely popular word**(i.e., `popularity(A) * 0.1 > popularity(B)`), so there is a chance that the user meant to type in A even though it might be farther away from it than B.
 Thus, in that case, the resulting iDict will look like this:
 
 `[[A, 1.0], [C, 2.0]]`
