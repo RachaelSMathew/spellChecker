@@ -1,4 +1,4 @@
-# I created a spellchecker with Python. 
+# So I created a spellchecker with Python. 
 The “dictionary” is collected from the texts of multiple novels, like the Harry Potter Series, Hunger Games, and Chronicles of Narnia, that you can find in the `fileDict` directory(I’m a big book nerd!). 
 
 **NOTE: This is still the beta version(There might be some hiccups)!**
@@ -57,7 +57,9 @@ The lastEdit values are used when [determining popularity](https://github.com/Ra
 This dictionary is sorted in ascending values.
 
 ## Phonetic Code Dictionary:
-I’m creating a dictionary where words with the same [phonetic code](https://en.wikipedia.org/wiki/Phonetic_algorithm) are grouped together. The phonetic code of a word is calculated using [metaphone](https://en.wikipedia.org/wiki/Metaphone) and [this python library](https://pypi.org/project/Metaphone/). 
+I’m creating a dictionary where words with the same [phonetic code](https://en.wikipedia.org/wiki/Phonetic_algorithm) are grouped together. 
+
+The phonetic code of a word is calculated using [metaphone](https://en.wikipedia.org/wiki/Metaphone) and [this python library](https://pypi.org/project/Metaphone/). 
 
 For example, the dictionary might look like this:
 `{“PJTR“: [“bajador“, “begetter”, “budgetary”]}`
