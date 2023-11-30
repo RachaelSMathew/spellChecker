@@ -1,5 +1,5 @@
 # I created a spellchecker with Python. 
-The “dictionary” is collected from the texts of multiple novels, like the Harry Potter Series, Hunger Games, and Chronicles of Narnia, that you can find in the fileDict directory(I’m a big book nerd!). 
+The “dictionary” is collected from the texts of multiple novels, like the Harry Potter Series, Hunger Games, and Chronicles of Narnia, that you can find in the `fileDict` directory(I’m a big book nerd!). 
 
 **NOTE: This is still the beta version(There might be some hiccups)!**
 ## Areas for Improvement 
@@ -9,9 +9,9 @@ So, I used a cache functionality (i.e., `@cache`, which is taken from `from func
 ## How to run:
 Download the [Github zip file](https://github.com/RachaelSMathew/spellChecker/tree/main)
 
-Input this command in the terminal in the `spellChecker` directory:
+Input this command in the terminal inside the `spellChecker` directory:
 
-`python spellCheck.py [txt file that the user wants to be spellchecked]`
+`python spellCheck.py [txt file that you want spellchecked]`
 
 For a word that is incorrectly spelled in the txt file, it will print something like this into the terminal:
 ```
@@ -46,6 +46,7 @@ I encoded this inverted index using [delta encoding](https://github.com/RachaelS
 ## lastEdit Dictionary: 
 A dictionary that holds the times each document was last edited. 
 If a document was last edited very recently, there might be a higher chance that this document is more popular and more reliable for correct spelling than a document that was last edited months ago. 
+
 Thus, if a word comes from many recently edited documents, we want to place a higher weight on it than a word that does not. 
 
 ### The structure of [lastEdit](https://github.com/RachaelSMathew/spellChecker/blob/1342ebf17b79052d2e37c9affcc1925738bee0f5/spellCheck.py):
