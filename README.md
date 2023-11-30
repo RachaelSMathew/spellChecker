@@ -1,7 +1,7 @@
 # So I created a spellchecker with Python. 
 The “dictionary” is collected from the texts of multiple novels, like the Harry Potter Series, Hunger Games, and Chronicles of Narnia, that you can find in the `fileDict` directory(I’m a big book nerd!). 
 
-**NOTE: This is still the beta version(There might be some hiccups)!**
+**NOTE: This is still the beta version(There might be some hiccups, you obviously need a dictionary of thousands of documents to make this more accurate)!**
 ## Areas for Improvement 
 **_Storage of Corpus_ and _Execution Time_ are the main pain points.**
 So, I used a cache functionality (i.e., `@cache`, which is taken from `from functools import cache`) for functions that are called multiple times. 
