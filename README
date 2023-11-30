@@ -1,1 +1,84 @@
+I created a spellchecker with Python. The “dictionary” is collected from the texts of multiple novels, like the Harry Potter Series, Hunger Games, Chronicles of Narnia(I’m a big book nerd!). 
 
+NOTE: This is still the beta version(There might be some hiccups)!
+But these are some things in the works to improve upon spellcheck!
+
+How to run:
+Download Github zip 
+Input this command in terminal in the spellChecker directory:
+python spellCheck.py [txt file that the user wants spellchecked]
+
+For a word that is incorrectly spelled in the txt file, it will print something like this into terminal:
+Instead of [incorrectly spelled word], did you mean?
+First choice for correct spelling
+Second choice
+Third choice
+…
+
+Inverted Index:
+I went through every single document in the corpus and created an inverted index.
+This was the structure of the index:
+{
+	word: {file #: [indexes of positions where word is found]}
+}
+
+Example:
+{
+	“this”: {4: [3, 5, 70], 6: [4, 45]},
+	“tomorrow”: {41: [3, 54, 70], 62: [42, 45]}
+}
+
+I encoded this inverted index using delta encoding(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L121) to reduce space.
+
+Features used to determine if two words are similar
+
+lastEdit Dictionary: 
+I also kept a dictionary called lastEdit of the times when each document was last edited. 
+If a document was last edited very recently, there might be a higher chance that this document is more popular and more reliable for correct spelling than a document that was last edited months ago. 
+Thus, if a word mostly is coming from documents that were very recently edited, we want to placer a higher weight on it than a word that is not. 
+
+The structure of lastEdit(link):
+{file #: current time - last edited time, file #: current time - last edited time}
+And this dictionary is sorted in ascending values.
+
+Phonetic Code Dictionary:
+I’m creating a dictionary where words that have the same phonetic code(link) are grouped together. The phonetic code of a word is calculated using metaphone(https://en.wikipedia.org/wiki/Metaphone) and this python library(https://pypi.org/project/Metaphone/). 
+For example the dictionary might look like this:
+{“PJTR“: [“bajador“, “begetter”, “budgetary”]}
+
+Dictionary of words that have the same length as incorrectly spelled word:
+Structure:
+{3: [“cat”, “bat”], 5: [“hello”, “pinky”]}
+
+The popularity of a word in the inverted dictionary(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L128)
+
+Words that start with same letter as incorrectly spelled(with a length diff of three max)(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L139):
+
+How do we actually spellCheck??
+I read in every word from the txt file the user inputed and strip any leading/trailing funky characters like “!#@$%^&”. 
+
+I created an array called iDict(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L172) that will hold all the correct spellings of the incorrect spelled word in a ranked order. This is what I’m returning back to the user. 
+
+Ranking the words that have the same phonetic code as incorrect spelled:
+I find the phonetic code of the word and if that code doesn’t exist in the phonetic code dictionary I made, the python library I’m using provides a secondary code.
+If the secondary code doesn’t exist then I skip this step. 
+
+Find the Levenshtein Distance(link) between the incorrect spelled word and all words with same phonetic code
+
+Sort the distances in iDict ascending order(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L177). 
+
+Ranking the words that start the same as incorrect spelled:
+Find the Levenshtein Distance(link) between the incorrect spelled word and all words with same starting letter
+
+Sort the distances in iDict ascending order(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L177). 
+
+Ranking the words that have the same length as incorrect spelled:
+Find the Levenshtein Distance(link) between the incorrect spelled word and all words with same length
+
+Sort the distances in iDict ascending order(https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L177). 
+
+
+Shortening down iDict even further:
+filter the iDict array such that any two elements next to each other are less than .01 in Levenshtein distance (https://github.com/RachaelSMathew/spellChecker/blob/2fd9d16e9638dfbbd6503e47e78461047765b133/spellCheck.py#L202C8-L202C8)
+	compare the popularity of both 
+	compare the Levenshtein distance of both (with a more detailed algorithm)
