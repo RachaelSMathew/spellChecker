@@ -2,6 +2,8 @@ I created a spellchecker with Python. The “dictionary” is collected from the
 
 NOTE: This is still the beta version(There might be some hiccups)!
 But these are some things in the works to improve upon spellcheck!
+Storage and Time are the main pain points. 
+So, I used a cache functionality (i.e., @cache which is taken from 'from functools import cache') for functions that are called multiple times. 
 
 How to run:
 Download Github zip 
