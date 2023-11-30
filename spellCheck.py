@@ -2,6 +2,7 @@ import math
 from metaphone import doublemetaphone
 from datetime import datetime
 import subprocess as sp
+from functools import cache
 import re
 import gzip
 import sys
@@ -22,6 +23,7 @@ secRow = ["a","s","d","f","g","h","j","k","l"]
 thirdRow = ["q","w","e","r","t","y","u","i","o","p"]
 allLetters = "zxcvbnmasdfghjklqwertyuiop"
 
+@cache
 #farthest distance will be from q to m (6.67)
 def distKey(a, b):
     a = a.lower()
@@ -45,6 +47,7 @@ def distKey(a, b):
         cor2 = [firstRow.index(b)+.6, 0]
     return math.sqrt(abs(cor1[0]-cor2[0])**2 + abs(cor1[1]-cor2[1])**2)
 
+@cache
 ##taken from https://www.educative.io/answers/the-levenshtein-distance-algorithm
 def levenshteinDist(a, b, specific=False):
     # Declaring array 'D' with rows = len(a) + 1 and columns = len(b) + 1:
@@ -73,39 +76,70 @@ def levenshteinDist(a, b, specific=False):
 
     return D[len(a)][len(b)]
 
+@cache
+#popularity of word 
+def popularity(word):
+    count = 0
+    for doc in invertedIndex[word]:
+        count += (len(invertedIndex[word][doc]) / lastEdit[doc])
+    if count == 1:
+        return 1
+    return math.log(count)
+
+def sortSecond(val):
+    return val[1]
+
+@cache
+def wordStartSame(word): ## and length diff is at max 3 letters from word 
+    arr = []
+    for words in invertedIndex:
+        if words == "" or words == " ":
+            continue
+        if words[0] == word[0] and abs(len(word)-len(words)) <= 2:
+            arr.append(words)
+    return arr
+
+###########                     MAIN                    ##############
 #creating dictionary 
 for doc in docs:
-   while True:
-        content=doc.readline()
-        if not content:
-            break
-        words = str(content).replace("\\n", "").replace("\\r", "").replace("\\",'').replace("\'b", "").replace("b'", ""). replace("b\"", "")
-        words = re.split(r'x[a-fA-F0-9][a-fA-F0-9]|,', words)
-        for word in words:
-            wordArr = word.split()
-            filename = docs.index(doc)
-            for single in wordArr:
-                single = single.strip()
-                single = single.rstrip("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'")
-                single = single.lstrip("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'")
-                if single == "" or single == " "  or single.isnumeric() or len(single) == 1 or not re.search(r'[a-zA-Z]+', single):
-                    continue
-                if single in invertedIndex:
-                    if filename in invertedIndex[single]:
-                        invertedIndex[single][filename].append(num)
+    while True:
+            content=doc.readline()
+            if not content:
+                break
+            words = str(content).replace("\\n", "").replace("\\r", "").replace("\\",'').replace("\'b", "").replace("b'", ""). replace("b\"", "")
+            words = re.split(r'x[a-fA-F0-9][a-fA-F0-9]|,', words)
+            for word in words:
+                wordArr = word.split()
+                filename = docs.index(doc)
+                for single in wordArr:
+                    single = single.strip()
+                    single = single.rstrip("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'")
+                    single = single.lstrip("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'")
+                    if single == "" or single == " "  or single.isnumeric() or len(single) == 1 or not re.search(r'[a-zA-Z]+', single):
+                        continue
+                    if single in invertedIndex:
+                        if filename in invertedIndex[single]:
+                            invertedIndex[single][filename].append(num)
+                        else:
+                            invertedIndex[single][filename] = [num]
                     else:
-                        invertedIndex[single][filename] = [num]
-                else:
-                    invertedIndex[single] = {filename: [num]};
-            num = num + 1
-   dateEdit = sp.getoutput("stat "+re.escape(doc.name).replace("\'", "\\'")).split("Modify: ")[1].split(".")[0]
-   datTimeFormat = datetime.strptime(dateEdit, '%Y-%m-%d %H:%M:%S')
-   lastEdit[docs.index(doc)] = (datetime.now()  - datTimeFormat).total_seconds() / (60 * 60) # get difference in hours
+                        invertedIndex[single] = {filename: [num]};
+                num = num + 1
+    dateEdit = sp.getoutput("stat "+re.escape(doc.name).replace("\'", "\\'")).split("Modify: ")[1].split(".")[0]
+    datTimeFormat = datetime.strptime(dateEdit, '%Y-%m-%d %H:%M:%S')
+    lastEdit[docs.index(doc)] = (datetime.now()  - datTimeFormat).total_seconds() / (60 * 60) # get difference in hours
 lastEdit = {k: v for k, v in sorted(lastEdit.items(), key=lambda item: item[1])} #sort dates of last edit
 
 for doc in docs:
     doc.close()
 
+#delta encoding of inverted Index 
+for word in invertedIndex.keys():
+    for doc in invertedIndex[word]:
+        for num in range(len(invertedIndex[word][doc])-1, 0, -1) : 
+            invertedIndex[word][doc][num] = invertedIndex[word][doc][num] - invertedIndex[word][doc][num-1]
+
+#creating phoentic code and dictionary of words of same length 
 for word in invertedIndex.keys():
     pC = doublemetaphone(word)[0]
     if pC in phoneticC:
@@ -118,33 +152,6 @@ for word in invertedIndex.keys():
     else:
         countLength[len(word)] = [word]
 
-#delta encoding 
-for word in invertedIndex.keys():
-    for doc in invertedIndex[word]:
-        for num in range(len(invertedIndex[word][doc])-1, 0, -1) : 
-            invertedIndex[word][doc][num] = invertedIndex[word][doc][num] - invertedIndex[word][doc][num-1]
-
-##popularity of word 
-def popularity(word):
-    count = 0
-    for doc in invertedIndex[word]:
-        count += (len(invertedIndex[word][doc]) / lastEdit[doc])
-    if count == 1:
-        return 1
-    return math.log(count)
-
-def sortSecond(val):
-    return val[1]
-
-def wordStartSame(word): ## and length diff is at max 3 letters from word 
-    arr = []
-    for words in invertedIndex:
-        if words == "" or words == " ":
-            continue
-        if words[0] == word[0] and abs(len(word)-len(words)) <= 2:
-            arr.append(words)
-    return arr
-
 #take words from text
 fileR = open(sys.argv[1], "r")
 words = []
@@ -155,14 +162,14 @@ while True:
     words += (content.replace("\n", "").split(" "))
 fileR.close()
 
-#take in every argument
-for arg in words:
+@cache
+def returnRank(arg):
     if len(arg) == 1:
-        continue
+        return
     arg = arg.rstrip("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'")
     arg = arg.lstrip("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~'")
     if arg == "" or arg == " "  or arg.isnumeric():
-        continue
+        return
 
     pC = doublemetaphone(arg)[0] if doublemetaphone(arg)[0] in phoneticC else doublemetaphone(arg)[1]
     wordSamepC = []
@@ -209,3 +216,7 @@ for arg in words:
         print("Instead of \""+ arg+ "\" did you mean this?")
         for d in iDist:
             print(d[0])
+
+#take in every argument
+for arg in words:
+    returnRank(arg)
