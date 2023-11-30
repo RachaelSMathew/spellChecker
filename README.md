@@ -6,6 +6,9 @@ The “dictionary” is collected from the texts of multiple novels, like the Ha
 **_Storage_ and _Time_ are the main pain points.**
 So, I used a cache functionality (i.e., `@cache`, which is taken from `from functools import cache`) for functions that are called multiple times. 
 
+### I want to attempt [using Redis and SQLAlchemy](https://levelup.gitconnected.com/caching-data-with-redis-and-sqlalchemy-in-python-a-step-by-step-guide-97f898f55ef) to cache data
+> Caching is a powerful technique to improve the performance of applications by storing frequently accessed data in a fast, in-memory storage system. Redis, a popular in-memory data store, provides excellent support for caching in Python applications.
+
 ## How to run:
 Download the [Github zip file](https://github.com/RachaelSMathew/spellChecker/tree/main)
 
