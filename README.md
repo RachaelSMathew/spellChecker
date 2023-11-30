@@ -3,7 +3,7 @@ The “dictionary” is collected from the texts of multiple novels, like the Ha
 
 **NOTE: This is still the beta version(There might be some hiccups)!**
 ## Areas for Improvement 
-**_Storage_ and _Time_ are the main pain points.**
+**_Storage of Corpus_ and _Execution Time_ are the main pain points.**
 So, I used a cache functionality (i.e., `@cache`, which is taken from `from functools import cache`) for functions that are called multiple times. 
 
 ### I want to attempt [using Redis and SQLAlchemy](https://levelup.gitconnected.com/caching-data-with-redis-and-sqlalchemy-in-python-a-step-by-step-guide-97f898f55ef) to cache data
