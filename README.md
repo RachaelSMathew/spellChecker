@@ -33,7 +33,10 @@ Third choice
 **The correct spelling of a word will be the one with the highest probability in the Noisy Channel Model**
 
 ### Inverted Index:
-I went through every single document in the corpus and created an inverted index.
+I went through every document and word in the corpus and created an inverted index.
+
+I removed the documents' unnecessary whitespace and the leading/trailing funky characters like "!@#$%^&".
+
 This was the structure of the index:
 ```
 {
